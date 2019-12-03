@@ -24,7 +24,9 @@ public class SpeedometerView extends View {
     private static final Paint CENTER_ARC_PAINT = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final Paint ARROW_PAINT = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final Paint TEXT_PAINT = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private static final float FONT_SIZE = 112f;
+    private static final float FONT_SIZE = 88f;
+    private static final Paint MIN_MAX_TEXT_PAINT = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private static final float MIN_MAX_FONT_SIZE = 40f;
     private Rect mTextBounds = new Rect();
     private static final Path ARROW_PATH = new Path();
     private static final float STROKE_WIDTH = 48f;
@@ -39,7 +41,8 @@ public class SpeedometerView extends View {
             RADIUS + (STROKE_WIDTH / 2) - STROKE_WIDTH_CENTER,
             RADIUS + (STROKE_WIDTH / 2) + STROKE_WIDTH_CENTER,
             RADIUS + (STROKE_WIDTH / 2) + STROKE_WIDTH_CENTER);
-    private static final int MAX_PROGRESS = 220;
+    private static final int START_SPEED = 0;
+    private static final int MAX_SPEED = 220;
     private static final float MAX_ANGLE = 270f;
     private static final float START_ANGLE = 135f;
     private static final float MAX_ANGLE_CENTER = 360f;
@@ -91,7 +94,8 @@ public class SpeedometerView extends View {
         extractAttributes(context, attrs);
         configureGradientArc();
         configureCenterDot();
-        configureText();
+        configureTextSpeed();
+        configureMinMaxSpeed();
         configureArrow();
     }
 
@@ -142,8 +146,8 @@ public class SpeedometerView extends View {
 
     private void drawArrow(Canvas canvas) {
         ARROW_PATH.reset();
-        float angle = (START_ANGLE + mProgress * MAX_ANGLE / MAX_PROGRESS) * (float) Math.PI / 180f;
-        float angle_for_line = (START_ANGLE + 90f + mProgress * MAX_ANGLE / MAX_PROGRESS) * (float) Math.PI / 180f;
+        float angle = (START_ANGLE + mProgress * MAX_ANGLE / MAX_SPEED) * (float) Math.PI / 180f;
+        float angle_for_line = (START_ANGLE + 90f + mProgress * MAX_ANGLE / MAX_SPEED) * (float) Math.PI / 180f;
         ARROW_PATH.moveTo(CENTER_X, CENTER_Y);
         ARROW_PATH.lineTo(CENTER_X + (float) Math.cos(angle) * ARROW_LENGTH,
                 CENTER_Y + (float) Math.sin(angle) * ARROW_LENGTH);
@@ -157,10 +161,16 @@ public class SpeedometerView extends View {
         canvas.drawPath(ARROW_PATH, ARROW_PAINT);
     }
 
-    private void configureText() {
+    private void configureTextSpeed() {
         TEXT_PAINT.setColor(mTextColor);
         TEXT_PAINT.setStyle(Paint.Style.FILL);
         TEXT_PAINT.setTextSize(FONT_SIZE);
+    }
+
+    private void configureMinMaxSpeed() {
+        MIN_MAX_TEXT_PAINT.setColor(mTextColor);
+        MIN_MAX_TEXT_PAINT.setStyle(Paint.Style.FILL);
+        MIN_MAX_TEXT_PAINT.setTextSize(MIN_MAX_FONT_SIZE);
     }
 
     private void getTextBounds(@NonNull String progressString) {
@@ -173,11 +183,21 @@ public class SpeedometerView extends View {
 
 
     private void drawText(Canvas canvas) {
-        final String progressString = formatString(mProgress);
-        getTextBounds(progressString);
+        String formatString = formatString(mProgress);
+        getTextBounds(formatString);
         float x = ARC_RECT.width() / 2f - mTextBounds.width() / 2f - mTextBounds.left + ARC_RECT.left;
         float y = ARC_RECT.height();
-        canvas.drawText(progressString, x, y, TEXT_PAINT);
+        canvas.drawText(formatString, x, y, TEXT_PAINT);
+        formatString = formatString(START_SPEED);
+        getTextBounds(formatString);
+        x = mTextBounds.left + ARC_RECT.left;
+        y = ARC_RECT.height();
+        canvas.drawText(formatString, x, y, MIN_MAX_TEXT_PAINT);
+        formatString = formatString(MAX_SPEED);
+        getTextBounds(formatString);
+        x = ARC_RECT.right - mTextBounds.width() / 2f + mTextBounds.left;
+        y = ARC_RECT.height();
+        canvas.drawText(formatString, x, y, MIN_MAX_TEXT_PAINT);
     }
 
     public int getProgress() {
