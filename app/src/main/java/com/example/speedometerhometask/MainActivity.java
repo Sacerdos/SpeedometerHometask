@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         float first_speed = (float) Math.sqrt(saved_x * saved_x + saved_y * saved_y);
         float second_speed = (float) Math.sqrt(current_x * current_x + current_y * current_y);
         if (second_speed > first_speed) {
-            progressFromMove += rand.nextInt(6);
+            progressFromMove += rand.nextInt(speedometerView.getMAX_SPEED()/50);
         }
         saved_x = current_x;
         saved_y = current_y;
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         @Override
         public void run() {
             if (decrease) {
-                int toDecrease = speedometerView.getProgress() - rand.nextInt(5) - 1;
+                int toDecrease = speedometerView.getProgress() - rand.nextInt(speedometerView.getMAX_SPEED()/40) - 1;
                 if (toDecrease < 0) {
                     toDecrease = 0;
                 }
