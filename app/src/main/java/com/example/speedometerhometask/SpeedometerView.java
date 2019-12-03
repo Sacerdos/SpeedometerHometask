@@ -136,10 +136,8 @@ public class SpeedometerView extends View {
     }
 
     private void configureArrow() {
-        ARROW_PAINT.setColor(mFifthColor);
+        ARROW_PAINT.setColor(mArrowColor);
         ARROW_PAINT.setStyle(Paint.Style.FILL_AND_STROKE);
-
-
     }
 
     private void drawArrow(Canvas canvas) {
