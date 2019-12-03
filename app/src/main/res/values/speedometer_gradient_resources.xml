@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SpeedometerView">
+        <attr name="progress" format="integer"/>
+        <attr name="first_color" format="color"/>
+        <attr name="second_color" format="color"/>
+        <attr name="third_color" format="color"/>
+        <attr name="fourth_color" format="color"/>
+        <attr name="fifth_color" format="color"/>
+        <attr name="text_color" format="color"/>
+        <attr name="arrow_color" format="color"/>
+
+    </declare-styleable>
+</resources>

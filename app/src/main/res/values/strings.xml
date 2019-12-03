@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">SpeedometerHometask</string>
+    <string name="speed_format">%d км/ч</string>
+</resources>
