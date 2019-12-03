@@ -21,11 +21,11 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     float saved_x = 0;
     float saved_y = 0;
     int progressFromMove = 0;
-    boolean decrease = false;
     Random rand = new Random();
     SpeedometerView speedometerView;
     Timer timer = new Timer();
-    Decrease decreaseClass = new Decrease(decrease);
+    Decrease decreaseClass = new Decrease();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,10 +38,9 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 speedometerView.setProgress(progress);
-                progressFromMove=progress;
+                progressFromMove = progress;
                 decreaseClass.setDecrease(false);
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
 
@@ -87,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 return super.onTouchEvent(event);
 
         }
-
     }
 
     private void changeProgress(float current_x, float current_y) {
@@ -108,23 +106,15 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         speedometerView.setProgress(progressFromMove);
     }
 
-
     @Override
     public void run() {
         timer.schedule(decreaseClass, 0, 100);
     }
-
     class Decrease extends TimerTask {
-        boolean decrease;
-
-        Decrease(boolean decrease) {
-            this.decrease = decrease;
-        }
-
+        boolean decrease =false;
         public void setDecrease(boolean decrease) {
             this.decrease = decrease;
         }
-
         @Override
         public void run() {
             if (decrease) {
