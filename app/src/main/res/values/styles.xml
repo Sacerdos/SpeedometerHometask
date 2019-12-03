@@ -10,6 +10,7 @@
 
     <style name="SpeedometerDefault">
         <item name="progress">0</item>
+        <item name="max_speed">220</item>
         <item name="first_color">#56FF03</item>
         <item name="second_color">#FFEB3B</item>
         <item name="third_color">#FFC107</item>

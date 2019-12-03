@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         setContentView(R.layout.activity_main);
         speedometerView = findViewById(R.id.speedometer_view);
         final SeekBar seekBar = findViewById(R.id.seekbar_progress);
+        seekBar.setMax(speedometerView.getMAX_SPEED());
         run();
         seekBar.setProgress(speedometerView.getProgress());
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -100,8 +101,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         if (progressFromMove < 0) {
             progressFromMove = 0;
         }
-        if (progressFromMove > 220) {
-            progressFromMove = 220;
+        if (progressFromMove > speedometerView.getMAX_SPEED()) {
+            progressFromMove = speedometerView.getMAX_SPEED();
         }
         speedometerView.setProgress(progressFromMove);
     }

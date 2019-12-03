@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 
 public class SpeedometerView extends View {
     private int mProgress;
+    private static final int START_SPEED = 0;
     private static final Paint SPEEDOMETER_ARC_PAINT = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final Paint CENTER_ARC_PAINT = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final Paint ARROW_PAINT = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -41,8 +42,6 @@ public class SpeedometerView extends View {
             RADIUS + (STROKE_WIDTH / 2) - STROKE_WIDTH_CENTER,
             RADIUS + (STROKE_WIDTH / 2) + STROKE_WIDTH_CENTER,
             RADIUS + (STROKE_WIDTH / 2) + STROKE_WIDTH_CENTER);
-    private static final int START_SPEED = 0;
-    private static final int MAX_SPEED = 220;
     private static final float MAX_ANGLE = 270f;
     private static final float START_ANGLE = 135f;
     private static final float MAX_ANGLE_CENTER = 360f;
@@ -65,6 +64,12 @@ public class SpeedometerView extends View {
     private int mTextColor;
     @ColorInt
     private int mArrowColor;
+
+    public int getMAX_SPEED() {
+        return MAX_SPEED;
+    }
+
+    private int MAX_SPEED = 220;
 
 
     public SpeedometerView(Context context) {
@@ -112,6 +117,7 @@ public class SpeedometerView extends View {
                 mFifthColor = typedArray.getColor(R.styleable.SpeedometerView_fifth_color, Color.RED);
                 mTextColor = typedArray.getColor(R.styleable.SpeedometerView_text_color, Color.BLACK);
                 mArrowColor = typedArray.getColor(R.styleable.SpeedometerView_arrow_color, Color.RED);
+                MAX_SPEED = typedArray.getInt(R.styleable.SpeedometerView_max_speed, 200);
             } finally {
                 typedArray.recycle();
             }
@@ -187,6 +193,7 @@ public class SpeedometerView extends View {
         getTextBounds(formatString);
         float x = ARC_RECT.width() / 2f - mTextBounds.width() / 2f - mTextBounds.left + ARC_RECT.left;
         float y = ARC_RECT.height();
+
         canvas.drawText(formatString, x, y, TEXT_PAINT);
         formatString = formatString(START_SPEED);
         getTextBounds(formatString);

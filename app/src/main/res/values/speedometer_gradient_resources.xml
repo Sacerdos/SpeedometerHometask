@@ -2,6 +2,7 @@
 <resources>
     <declare-styleable name="SpeedometerView">
         <attr name="progress" format="integer" />
+        <attr name="max_speed" format="integer" />
         <attr name="first_color" format="color" />
         <attr name="second_color" format="color" />
         <attr name="third_color" format="color" />
